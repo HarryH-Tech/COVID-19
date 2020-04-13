@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import {
-  //getCountryCasesAction,
+  getCountryCasesAction,
   getAllAvailableCountriesAction,
 } from "../redux/Actions";
 
-import { Form, Dropdown } from "semantic-ui-react";
+import { Form } from "semantic-ui-react";
 
-function CasesByCountry({ data, getAllAvailableCountries }) {
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [countryList, setCountryList] = useState([]);
+function CasesByCountry({
+  countryOptions,
+  getAllAvailableCountries,
+  getCountryCases,
+}) {
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getAllAvailableCountries();
+    dispatch(getAllAvailableCountries());
+  }, [dispatch]);
 
-    setCountryList(data);
-    console.log(countryList);
-  }, []);
-
-  const onDropdownChange = (e, result) => {
-    console.log("result");
-    console.log(result);
+  const onDropdownOptionSelect = (e, result) => {
+    console.log(result.value);
+    dispatch(getCountryCases(result.value));
   };
 
   return (
@@ -29,19 +29,19 @@ function CasesByCountry({ data, getAllAvailableCountries }) {
         placeholder="Select Country"
         fluid
         selection
-        value={selectedCountry}
-        //    onChange={setSelectedCountry()}
+        search
+        onChange={(result, e) => dispatch(getCountryCases(e.value))}
+        //{(result) => dispatch(getCountryCases(result.value))}
         options={
-          data &&
-          data.map((c) => {
+          countryOptions &&
+          countryOptions.map((c) => {
             return {
-              key: c.Country,
+              key: c.ISO2,
               text: c.Country,
               value: c.Country,
             };
           })
         }
-        //      options={data}
       />
     </div>
   );
@@ -49,13 +49,14 @@ function CasesByCountry({ data, getAllAvailableCountries }) {
 
 const mapStateToProps = (state) => {
   return {
-    data: state.data,
+    countryOptions: state.data,
+    countryData: state.data,
   };
 };
 
-const mapDispatchToProps = {
-  getAllAvailableCountries: getAllAvailableCountriesAction,
-  // getCountryCases: getCountryCasesAction,
-};
+const mapDispatchToProps = (dispatch) => ({
+  getAllAvailableCountries: () => dispatch(getAllAvailableCountriesAction),
+  getCountryCases: () => dispatch(getCountryCasesAction),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CasesByCountry);

@@ -1,4 +1,8 @@
-import { GET_WORLDWIDE_SUMMARY, GET_ALL_AVAILABLE_COUNTRIES } from "./Actions";
+import {
+  GET_WORLDWIDE_SUMMARY,
+  GET_ALL_AVAILABLE_COUNTRIES,
+  GET_COUNTRY_CASES,
+} from "./Actions";
 
 const initialState = {
   data: "",
@@ -20,12 +24,12 @@ export const rootReducer = (state = initialState, action) => {
         data: action.payload,
       };
 
-    // case GET_COUNTRY_CASES:
-    //   console.log(action.payload);
-    //   return {
-    //     ...state,
-    //     data: action.payload,
-    //   };
+    case GET_COUNTRY_CASES:
+      console.log(action.payload);
+      return {
+        ...state,
+        data: action.payload,
+      };
 
     default:
       return state;

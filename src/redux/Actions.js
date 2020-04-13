@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const GET_WORLDWIDE_SUMMARY = "GET_WORLDWIDE_SUMMARY";
-// export const GET_COUNTRY_CASES = "GET_COUNTRY_CASES";
+export const GET_COUNTRY_CASES = "GET_COUNTRY_CASES";
 export const GET_ALL_AVAILABLE_COUNTRIES = "GET_ALL_COUNTRIES";
 
 export const getWorldwideSummaryAction = () => async (dispatch, getState) => {
@@ -30,17 +30,18 @@ export const getAllAvailableCountriesAction = () => async (
   });
 };
 
-// export const getCountryCasesAction = () => async (
-//   dispatch,
-//   getState,
-//   country
-// ) => {
-//   const response = await axios.get(
-//     `https://api.covid19api.com/dayone/country/${country}/status/confirmed`
-//   );
-
-//   return dispatch({
-//     type: GET_COUNTRY_CASES,
-//     payload: response.data,
-//   });
-// };
+export const getCountryCasesAction = () => async (
+  dispatch,
+  getState,
+  country
+) => {
+  console.log("getCountryCasesAction", country);
+  const response = await axios.get(
+    `https://api.covid19api.com/dayone/country/${country}/status/confirmed`
+  );
+  console.log(response);
+  return dispatch({
+    type: GET_COUNTRY_CASES,
+    payload: response.data,
+  });
+};
