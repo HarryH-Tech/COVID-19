@@ -16,22 +16,33 @@ function Worldwide({ data, getWorldwideSummary }) {
             <h1>Cases Worldwide</h1>
           </Segment>
           <Segment>
-            <p>Total Confirmed Cases: {data && data.TotalConfirmed}</p>
+            <p>
+              Total Confirmed Cases:{" "}
+              {data && data.TotalConfirmed.toLocaleString()}
+            </p>
           </Segment>
           <Segment>
-            <p>Total New Cases Today: {data && data.NewConfirmed}</p>
+            <p>
+              Total New Cases Today:{" "}
+              {data && data.NewConfirmed.toLocaleString()}
+            </p>
           </Segment>
           <Segment>
-            <p>Total Deaths: {data && data.TotalDeaths}</p>
+            <p>Total Deaths: {data && data.TotalDeaths.toLocaleString()}</p>
           </Segment>
           <Segment>
-            <p>Total Deaths Today: {data && data.NewDeaths}</p>
+            <p>Total Deaths Today: {data && data.NewDeaths.toLocaleString()}</p>
           </Segment>
           <Segment>
-            <p>Total Recoveries: {data && data.TotalRecovered}</p>
+            <p>
+              Total Recoveries: {data && data.TotalRecovered.toLocaleString()}
+            </p>
           </Segment>
           <Segment>
-            <p>Total Recoveries Today: {data && data.NewRecovered}</p>
+            <p>
+              Total Recoveries Today:{" "}
+              {data && data.NewRecovered.toLocaleString()}
+            </p>
           </Segment>
         </Segment.Group>
       </Container>

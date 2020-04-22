@@ -2,7 +2,8 @@ import React from "react";
 
 import CasesWorldwide from "./components/CasesWorldwide";
 import Introduction from "./components/Introduction";
-import CasesByCountry from "./components/CasesByCountry";
+import WrappedCountry from "./components/CasesByCountry";
+// import CountryLocationMap from "./components/CountryLocationMap";
 
 import { Container, Header, Segment, Icon, Grid } from "semantic-ui-react";
 
@@ -38,7 +39,9 @@ function App() {
           </Grid.Column>
         </Grid.Row>
       </Grid>
-      <CasesByCountry />
+      <WrappedCountry />
+      {/* <CountryLocationMap lat={countryCases.lat} lng={countryCases.lng} /> */}
+      {/* <CountryLocationMap /> */}
     </>
   );
 }

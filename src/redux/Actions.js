@@ -1,28 +1,35 @@
+import React from "react";
 import axios from "axios";
 
 export const GET_WORLDWIDE_SUMMARY = "GET_WORLDWIDE_SUMMARY";
 export const GET_COUNTRY_CASES = "GET_COUNTRY_CASES";
+export const GET_COUNTRY_TOTAL_CASES = "GET_COUNTRY_CASES";
 export const GET_ALL_AVAILABLE_COUNTRIES = "GET_ALL_COUNTRIES";
+export const SET_ERROR = "SET_ERROR";
 
+export const CREATE_BOARD = "CREATE_BOARD";
+
+//Get Total Deaths, Recoveries, Confirmed Cases, Etc
 export const getWorldwideSummaryAction = () => async (dispatch, getState) => {
-  // const response = await axios
-  //   .get
-  //   // "https://cors-anywhere.herokuapp.com/" +
-  //   // "process.env.REACT_APP_GET_WORLDWIDE_SUMMARY"
-  //   ();
-  // console.log(response);
-  // return dispatch({
-  //   type: GET_WORLDWIDE_SUMMARY,
-  //   payload: response.data,
-  // });
+  const response = await axios.get("https://api.covid19api.com/summary ");
+  return dispatch({
+    type: GET_WORLDWIDE_SUMMARY,
+    payload: response.data,
+  });
 };
 
+// Get all countries to populate dropdown menu
 export const getAllAvailableCountriesAction = () => async (
   dispatch,
   getState
 ) => {
   const response = await axios.get("https://api.covid19api.com/countries");
-  console.log(response);
+
+  //Sort response so it lists the countries in
+  //alphabetical order
+  response.data.sort(function (a, b) {
+    return a.Country < b.Country ? -1 : a.Country > b.Country ? 1 : 0;
+  });
 
   return dispatch({
     type: GET_ALL_AVAILABLE_COUNTRIES,
@@ -30,18 +37,108 @@ export const getAllAvailableCountriesAction = () => async (
   });
 };
 
-export const getCountryCasesAction = () => async (
+// Get number of confirmed cases in a country
+// to create chart
+export const getCountryCasesAction = (country) => async (
   dispatch,
-  getState,
-  country
+  getState
 ) => {
-  console.log("getCountryCasesAction", country);
-  const response = await axios.get(
-    `https://api.covid19api.com/dayone/country/${country}/status/confirmed`
+  const confirmedCasesSinceDay1Response = await axios.get(
+    `https://api.covid19api.com/dayone/country/${country}`
   );
-  console.log(response);
-  return dispatch({
-    type: GET_COUNTRY_CASES,
-    payload: response.data,
-  });
+
+  const currentAllCasesInCountryResponse = await axios.get(
+    `https://api.covid19api.com/live/country/${country}`
+  );
+
+  Promise.all([
+    confirmedCasesSinceDay1Response,
+    currentAllCasesInCountryResponse,
+  ]);
+
+  console.log(confirmedCasesSinceDay1Response);
+
+  if (
+    confirmedCasesSinceDay1Response.data.length > 0 &&
+    currentAllCasesInCountryResponse.data.length > 0
+  ) {
+    /*
+  *****Removes responses that do not contain a province.*****
+
+  Needed as some countries (such as UK or France) return
+  number of cases for different territories, distorting the 
+  graph. 
+  Now it only returns the number of cases for the main country.
+  This may have unreliable results for some countries but I haven't
+  found any yet. 
+  */
+    const response1WithoutProvinces = confirmedCasesSinceDay1Response.data.filter(
+      (c) => {
+        if (!c.Province) {
+          return c;
+        } else {
+          return null;
+        }
+      }
+    );
+
+    /* 
+  Create a formatted object to pass to
+  the "data" prop in the bar chart. It must
+  be formatted as below to work correctly.
+  */
+    let dataPoints = {
+      lat: "",
+      lng: "",
+      countryData: [],
+      labels: [],
+      datasets: [
+        {
+          barThickness: 4,
+          label: "Number of Confirmed COVID-19 Cases",
+          backgroundColor: "#4477ff",
+          borderColor: "#4477ff",
+          data: [],
+        },
+        {
+          barThickness: 4,
+          label: "Number of COVID-19 Deaths",
+          backgroundColor: "#000",
+          borderColor: "#000",
+          data: [],
+        },
+        {
+          barThickness: 4,
+          label: "Number of COVID-19 Recoveries",
+          backgroundColor: "#55ff55",
+          borderColor: "#55ff55",
+          data: [],
+        },
+      ],
+    };
+
+    for (var i = 0; i < response1WithoutProvinces.length; i++) {
+      dataPoints.labels.push(response1WithoutProvinces[i].Date.slice(0, -10));
+      dataPoints.datasets[0].data.push(response1WithoutProvinces[i].Confirmed);
+      dataPoints.datasets[1].data.push(response1WithoutProvinces[i].Deaths);
+      dataPoints.datasets[2].data.push(response1WithoutProvinces[i].Recovered);
+    }
+
+    dataPoints.countryData.push(response1WithoutProvinces);
+
+    console.log(dataPoints);
+    dataPoints.lat = confirmedCasesSinceDay1Response.data[0].Lat;
+    dataPoints.lng = confirmedCasesSinceDay1Response.data[0].Lon;
+
+    return dispatch({
+      type: GET_COUNTRY_CASES,
+      payload: dataPoints,
+      error: false,
+    });
+  } else {
+    return dispatch({
+      type: SET_ERROR,
+      payload: true,
+    });
+  }
 };

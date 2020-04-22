@@ -2,33 +2,45 @@ import {
   GET_WORLDWIDE_SUMMARY,
   GET_ALL_AVAILABLE_COUNTRIES,
   GET_COUNTRY_CASES,
+  SET_ERROR,
+  /////Game Imports/////
+  CREATE_BOARD,
 } from "./Actions";
 
-const initialState = {
+const covidInitialState = {
   data: "",
+  availableCountries: "",
+  countryCases: "",
+  allTypesOfCountryCases: "",
+  error: false,
 };
 
-export const rootReducer = (state = initialState, action) => {
+export const covidReducer = (state = covidInitialState, action) => {
   switch (action.type) {
     case GET_WORLDWIDE_SUMMARY:
-      console.log(action.payload);
       return {
         ...state,
         data: action.payload,
       };
 
     case GET_ALL_AVAILABLE_COUNTRIES:
-      console.log(action.payload);
       return {
         ...state,
-        data: action.payload,
+        availableCountries: action.payload,
       };
 
     case GET_COUNTRY_CASES:
-      console.log(action.payload);
       return {
         ...state,
-        data: action.payload,
+        countryCases: action.payload,
+        error: false,
+      };
+
+    case SET_ERROR:
+      return {
+        ...state,
+        countryCases: "",
+        error: action.payload,
       };
 
     default:
