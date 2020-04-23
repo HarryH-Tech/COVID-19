@@ -5,9 +5,12 @@ import {
   getAllAvailableCountriesAction,
 } from "../redux/Actions";
 
-import { Form, Segment, List, Icon, Grid } from "semantic-ui-react";
+import { Form, Segment, List } from "semantic-ui-react";
 import { Bar } from "react-chartjs-2";
 import CountryLocationMap from "./CountryLocationMap";
+import Error from "./Error";
+
+import "../assets/MediaQueries.css";
 
 function CasesByCountry(props) {
   const dispatch = useDispatch();
@@ -15,8 +18,6 @@ function CasesByCountry(props) {
   const availableCountries = useSelector((state) => state.availableCountries);
   const countryCases = useSelector((state) => state.countryCases);
   const error = useSelector((state) => state.error);
-
-  console.log(countryCases);
 
   useEffect(() => {
     dispatch(getAllAvailableCountriesAction());
@@ -95,17 +96,22 @@ function CasesByCountry(props) {
         }
       />
 
-      {countryCases ? (
+      {countryCases && (
         <>
           {getAllTypesOfCases()}
           <Segment
             style={{
-              width: "95%",
+              height: 600,
+              width: 600,
               margin: "10px auto",
+              position: "relative",
             }}
+            id="chart-segment"
           >
             <Bar
+              id="chart"
               data={countryCases}
+              responsive={true}
               options={{
                 legend: {
                   display: true,
@@ -130,34 +136,22 @@ function CasesByCountry(props) {
                   ],
                 },
               }}
-              height={400}
-              width={800}
+              height={200}
+              width={200}
+              style={{
+                margin: "auto",
+              }}
             />
           </Segment>
 
           <CountryLocationMap lat={countryCases.lat} lng={countryCases.lng} />
         </>
-      ) : (
-        ""
       )}
 
-      {error ? (
-        <Segment
-          inverted
-          color="red"
-          tertiary
-          style={{ width: "80%", margin: "auto" }}
-          textAlign="center"
-        >
-          <Icon name="star" size="huge" />
-          <h2>
-            {" "}
-            This country does not have any reported cases or we don't have any
-            information available about that country at the moment.
-          </h2>
-        </Segment>
-      ) : (
-        ""
+      {error && (
+        <>
+          <Error />
+        </>
       )}
     </>
   );

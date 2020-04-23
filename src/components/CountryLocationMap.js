@@ -20,48 +20,46 @@ class CountryLocationMap extends Component {
 
   render() {
     const { showInfoWindow, activeMarker } = this.state;
-    const { lat, lng, country, google } = this.props;
-
-    console.log(this.props);
-    console.log(parseInt(this.props.lat));
+    const { lat, lng, google } = this.props;
 
     return (
       <>
-        <Map
-          google={google}
-          zoom={5}
-          initialCenter={{
-            lat: parseInt(lat),
-            lng: parseInt(lng),
-          }}
-          center={{
-            lat: parseInt(lat),
-            lng: parseInt(lng),
-          }}
-          style={{
-            margin: "auto",
-            width: "95%",
-            height: "95%",
-            border: "2px solid black",
-          }}
-        >
-          <Marker
-            position={{
+        <div id="map-container">
+          <Map
+            google={google}
+            zoom={5}
+            initialCenter={{
               lat: parseInt(lat),
               lng: parseInt(lng),
             }}
-            name={"Location"}
-            onClick={this.onMarkerClick}
-          ></Marker>
+            center={{
+              lat: parseInt(lat),
+              lng: parseInt(lng),
+            }}
+            style={{
+              width: "90%",
+              height: "90%",
+              margin: "auto",
+            }}
+          >
+            <Marker
+              position={{
+                lat: parseInt(lat),
+                lng: parseInt(lng),
+              }}
+              name={"Location"}
+              onClick={this.onMarkerClick}
+            ></Marker>
 
-          <InfoWindow marker={activeMarker} visible={showInfoWindow}>
-            <div>
-              <strong>Latitude:</strong> {lat}
-              <br />
-              <strong>Longitude:</strong> {lng}
-            </div>
-          </InfoWindow>
-        </Map>
+            <InfoWindow marker={activeMarker} visible={showInfoWindow}>
+              <div>
+                <strong>Latitude:</strong> {lat}
+                <br />
+                <strong>Longitude:</strong> {lng}
+              </div>
+            </InfoWindow>
+          </Map>
+        </div>
       </>
     );
   }
@@ -70,5 +68,3 @@ class CountryLocationMap extends Component {
 export default GoogleApiWrapper({
   apiKey: "AIzaSyDgYSEUDOXvQpldfmt_sS1_Qqp4mWIYCko",
 })(CountryLocationMap);
-
-// export default CountryLocationMap;

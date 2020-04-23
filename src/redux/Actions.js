@@ -1,4 +1,3 @@
-import React from "react";
 import axios from "axios";
 
 export const GET_WORLDWIDE_SUMMARY = "GET_WORLDWIDE_SUMMARY";
@@ -56,15 +55,12 @@ export const getCountryCasesAction = (country) => async (
     currentAllCasesInCountryResponse,
   ]);
 
-  console.log(confirmedCasesSinceDay1Response);
-
   if (
     confirmedCasesSinceDay1Response.data.length > 0 &&
     currentAllCasesInCountryResponse.data.length > 0
   ) {
     /*
   *****Removes responses that do not contain a province.*****
-
   Needed as some countries (such as UK or France) return
   number of cases for different territories, distorting the 
   graph. 
@@ -72,7 +68,7 @@ export const getCountryCasesAction = (country) => async (
   This may have unreliable results for some countries but I haven't
   found any yet. 
   */
-    const response1WithoutProvinces = confirmedCasesSinceDay1Response.data.filter(
+    const confirmedCasesSinceDay1ResponseWithoutProvinces = confirmedCasesSinceDay1Response.data.filter(
       (c) => {
         if (!c.Province) {
           return c;
@@ -117,16 +113,29 @@ export const getCountryCasesAction = (country) => async (
       ],
     };
 
-    for (var i = 0; i < response1WithoutProvinces.length; i++) {
-      dataPoints.labels.push(response1WithoutProvinces[i].Date.slice(0, -10));
-      dataPoints.datasets[0].data.push(response1WithoutProvinces[i].Confirmed);
-      dataPoints.datasets[1].data.push(response1WithoutProvinces[i].Deaths);
-      dataPoints.datasets[2].data.push(response1WithoutProvinces[i].Recovered);
+    for (
+      var i = 0;
+      i < confirmedCasesSinceDay1ResponseWithoutProvinces.length;
+      i++
+    ) {
+      dataPoints.labels.push(
+        confirmedCasesSinceDay1ResponseWithoutProvinces[i].Date.slice(0, -10)
+      );
+      dataPoints.datasets[0].data.push(
+        confirmedCasesSinceDay1ResponseWithoutProvinces[i].Confirmed
+      );
+      dataPoints.datasets[1].data.push(
+        confirmedCasesSinceDay1ResponseWithoutProvinces[i].Deaths
+      );
+      dataPoints.datasets[2].data.push(
+        confirmedCasesSinceDay1ResponseWithoutProvinces[i].Recovered
+      );
     }
 
-    dataPoints.countryData.push(response1WithoutProvinces);
+    dataPoints.countryData.push(
+      confirmedCasesSinceDay1ResponseWithoutProvinces
+    );
 
-    console.log(dataPoints);
     dataPoints.lat = confirmedCasesSinceDay1Response.data[0].Lat;
     dataPoints.lng = confirmedCasesSinceDay1Response.data[0].Lon;
 

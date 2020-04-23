@@ -3,8 +3,6 @@ import {
   GET_ALL_AVAILABLE_COUNTRIES,
   GET_COUNTRY_CASES,
   SET_ERROR,
-  /////Game Imports/////
-  CREATE_BOARD,
 } from "./Actions";
 
 const covidInitialState = {

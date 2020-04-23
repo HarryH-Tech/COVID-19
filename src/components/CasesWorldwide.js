@@ -9,44 +9,49 @@ function Worldwide({ data, getWorldwideSummary }) {
   }, [getWorldwideSummary]);
 
   return (
-    <div>
-      <Container textAlign="center">
-        <Segment.Group raised compact>
-          <Segment color="red">
-            <h1>Cases Worldwide</h1>
-          </Segment>
-          <Segment>
-            <p>
-              Total Confirmed Cases:{" "}
-              {data && data.TotalConfirmed.toLocaleString()}
-            </p>
-          </Segment>
-          <Segment>
-            <p>
-              Total New Cases Today:{" "}
-              {data && data.NewConfirmed.toLocaleString()}
-            </p>
-          </Segment>
-          <Segment>
-            <p>Total Deaths: {data && data.TotalDeaths.toLocaleString()}</p>
-          </Segment>
-          <Segment>
-            <p>Total Deaths Today: {data && data.NewDeaths.toLocaleString()}</p>
-          </Segment>
-          <Segment>
-            <p>
-              Total Recoveries: {data && data.TotalRecovered.toLocaleString()}
-            </p>
-          </Segment>
-          <Segment>
-            <p>
-              Total Recoveries Today:{" "}
-              {data && data.NewRecovered.toLocaleString()}
-            </p>
-          </Segment>
-        </Segment.Group>
-      </Container>
-    </div>
+    <Container textAlign="center">
+      <Segment.Group raised compact>
+        <Segment color="red">
+          <h1>Cases Worldwide</h1>
+        </Segment>
+        <Segment>
+          <p>
+            <strong>Total Confirmed Cases: </strong>
+            {data && data.TotalConfirmed.toLocaleString()}
+          </p>
+        </Segment>
+        <Segment>
+          <p>
+            <strong>Total New Cases Today: </strong>{" "}
+            {data && data.NewConfirmed.toLocaleString()}
+          </p>
+        </Segment>
+        <Segment>
+          <p>
+            <strong>Total Deaths:</strong>{" "}
+            {data && data.TotalDeaths.toLocaleString()}
+          </p>
+        </Segment>
+        <Segment>
+          <p>
+            <strong>Total Deaths Today:</strong>{" "}
+            {data && data.NewDeaths.toLocaleString()}
+          </p>
+        </Segment>
+        <Segment>
+          <p>
+            <strong>Total Recoveries:</strong>{" "}
+            {data && data.TotalRecovered.toLocaleString()}
+          </p>
+        </Segment>
+        <Segment>
+          <p>
+            <strong>Total Recoveries Today:</strong>{" "}
+            {data && data.NewRecovered.toLocaleString()}
+          </p>
+        </Segment>
+      </Segment.Group>
+    </Container>
   );
 }
 
