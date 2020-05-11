@@ -4,7 +4,7 @@
 
 AppScreenshot
 
-![App Screenshot](/public/AppScreenshot.png)
+![App Screenshot](./public/AppScreenshot.png)
 
 To run the app, clone this github repo,
 then navigate to the repo file on your computer and run `npm install` then `npm run start`.
