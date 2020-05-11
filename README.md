@@ -2,8 +2,6 @@
 
 **An app that shows country specific and global data about COVID-19 cases.**
 
-AppScreenshot
-
 ![App Screenshot](./public/AppScreenshot.PNG)
 
 To run the app, clone this github repo,
