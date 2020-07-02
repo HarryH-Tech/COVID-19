@@ -1,9 +1,10 @@
 import React from "react";
 import { Segment, Icon } from "semantic-ui-react";
+import Footer from "./Footer";
 
 function Error(props) {
   return (
-    <div>
+    <>
       <Segment
         inverted
         color="red"
@@ -18,7 +19,7 @@ function Error(props) {
           any information available about that country at the moment.
         </h2>
       </Segment>
-    </div>
+    </>
   );
 }
 

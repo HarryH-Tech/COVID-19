@@ -6,8 +6,6 @@ export const GET_COUNTRY_TOTAL_CASES = "GET_COUNTRY_CASES";
 export const GET_ALL_AVAILABLE_COUNTRIES = "GET_ALL_COUNTRIES";
 export const SET_ERROR = "SET_ERROR";
 
-export const CREATE_BOARD = "CREATE_BOARD";
-
 //Get Total Deaths, Recoveries, Confirmed Cases, Etc
 export const getWorldwideSummaryAction = () => async (dispatch, getState) => {
   const response = await axios.get("https://api.covid19api.com/summary ");
@@ -69,9 +67,9 @@ export const getCountryCasesAction = (country) => async (
   found any yet. 
   */
     const confirmedCasesSinceDay1ResponseWithoutProvinces = confirmedCasesSinceDay1Response.data.filter(
-      (c) => {
-        if (!c.Province) {
-          return c;
+      (confirmedCase) => {
+        if (!confirmedCase.Province) {
+          return confirmedCase;
         } else {
           return null;
         }

@@ -5,7 +5,7 @@ import { Grid } from "semantic-ui-react";
 import Title from "./components/Title";
 import CasesWorldwide from "./components/CasesWorldwide";
 import Introduction from "./components/Introduction";
-import WrappedCountry from "./components/CasesByCountry";
+import CasesByCountry from "./components/CasesByCountry";
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
           </Grid.Column>
         </Grid.Row>
       </Grid>
-      <WrappedCountry />
+      <CasesByCountry />
     </>
   );
 }

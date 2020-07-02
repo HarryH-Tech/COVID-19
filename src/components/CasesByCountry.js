@@ -1,16 +1,22 @@
 import React, { useEffect } from "react";
+
+// Redux
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCountryCasesAction,
   getAllAvailableCountriesAction,
 } from "../redux/Actions";
 
+// Custom Components
 import { Form, Segment, List } from "semantic-ui-react";
 import { Bar } from "react-chartjs-2";
 import CountryLocationMap from "./CountryLocationMap";
 import Error from "./Error";
+import Footer from "./Footer";
 
+// Styling and Alerts
 import "../assets/MediaQueries.css";
+import Swal from "sweetalert2";
 
 function CasesByCountry(props) {
   const dispatch = useDispatch();
@@ -24,6 +30,18 @@ function CasesByCountry(props) {
   }, [dispatch]);
 
   const handleChange = (country) => {
+    if (country === "United Kingdom") {
+      Swal.fire({
+        title: "Sorry 😔",
+        confirmButtonText: "OK",
+        html:
+          "The API used in this app doesn't have the total number of COVID-19 recoveries for the UK at present.<br /><br />" +
+          "Head over <a href='https://www.coronatracker.com/country/united-kingdom/' target='_blank'>here</a>" +
+          " to see the actual number of recoveries in the UK",
+        icon: "error",
+      });
+    }
+
     dispatch(getCountryCasesAction(country));
   };
 
@@ -86,17 +104,17 @@ function CasesByCountry(props) {
         onChange={(e, result) => handleChange(result.value)}
         options={
           availableCountries &&
-          availableCountries.map((c) => {
+          availableCountries.map((country) => {
             return {
-              key: c.ISO2,
-              text: c.Country,
-              value: c.Country,
+              key: country.ISO2,
+              text: country.Country,
+              value: country.Country,
             };
           })
         }
       />
 
-      {countryCases && (
+      {countryCases ? (
         <>
           {getAllTypesOfCases()}
           <Segment
@@ -145,14 +163,16 @@ function CasesByCountry(props) {
           </Segment>
 
           <CountryLocationMap lat={countryCases.lat} lng={countryCases.lng} />
+          <Footer topMargin={100} />
         </>
-      )}
+      ) : null}
 
-      {error && (
+      {error ? (
         <>
           <Error />
+          <Footer />
         </>
-      )}
+      ) : null}
     </>
   );
 }
