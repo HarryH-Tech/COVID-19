@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
+import React, { Component } from 'react';
+import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 
 class CountryLocationMap extends Component {
   constructor(props) {
@@ -37,9 +37,9 @@ class CountryLocationMap extends Component {
               lng: parseInt(lng),
             }}
             style={{
-              width: "90%",
-              height: "90%",
-              margin: "auto",
+              width: '90%',
+              height: '90%',
+              margin: 'auto',
             }}
           >
             <Marker
@@ -47,7 +47,7 @@ class CountryLocationMap extends Component {
                 lat: parseInt(lat),
                 lng: parseInt(lng),
               }}
-              name={"Location"}
+              name={'Location'}
               onClick={this.onMarkerClick}
             ></Marker>
 
@@ -66,5 +66,5 @@ class CountryLocationMap extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyDgYSEUDOXvQpldfmt_sS1_Qqp4mWIYCko",
+  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
 })(CountryLocationMap);

@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
-import { getWorldwideSummaryAction } from "../redux/Actions";
-import { Container, Segment } from "semantic-ui-react";
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { getWorldwideSummaryAction } from '../redux/Actions';
+import { Container, Segment } from 'semantic-ui-react';
 
 function Worldwide({ data, getWorldwideSummary }) {
   useEffect(() => {
@@ -22,31 +22,31 @@ function Worldwide({ data, getWorldwideSummary }) {
         </Segment>
         <Segment>
           <p>
-            <strong>Total New Cases Today: </strong>{" "}
+            <strong>Total New Cases Today: </strong>{' '}
             {data && data.NewConfirmed.toLocaleString()}
           </p>
         </Segment>
         <Segment>
           <p>
-            <strong>Total Deaths:</strong>{" "}
+            <strong>Total Deaths:</strong>{' '}
             {data && data.TotalDeaths.toLocaleString()}
           </p>
         </Segment>
         <Segment>
           <p>
-            <strong>Total Deaths Today:</strong>{" "}
+            <strong>Total Deaths Today:</strong>{' '}
             {data && data.NewDeaths.toLocaleString()}
           </p>
         </Segment>
         <Segment>
           <p>
-            <strong>Total Recoveries:</strong>{" "}
+            <strong>Total Recoveries:</strong>{' '}
             {data && data.TotalRecovered.toLocaleString()}
           </p>
         </Segment>
         <Segment>
           <p>
-            <strong>Total Recoveries Today:</strong>{" "}
+            <strong>Total Recoveries Today:</strong>{' '}
             {data && data.NewRecovered.toLocaleString()}
           </p>
         </Segment>
